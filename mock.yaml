@@ -1,0 +1,8 @@
+# Mock latencies, from the build spec defaults. Tune so the loan baseline takes several seconds.
+seed: 42
+latency_scale: 1.0   # multiplies every mock delay; tests and quick checks lower it
+api_latency_ms: {kyc: 800, bureau: 1200, statement: 1500, offers: 600, sms: 200,
+                 transactions: 900, tickets: 250}
+llm_latency_ms: {small: 300, large: 1500}
+retrieve_latency_ms: 400   # simulated vector-store round trip on top of real local retrieval
+bank_api: {host: 127.0.0.1, port: 8001}   # keep in step with MOCK_PORT in the Makefile

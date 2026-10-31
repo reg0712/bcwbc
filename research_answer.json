@@ -1,0 +1,11 @@
+{
+  "title": "ResearchAnswer",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["answer", "sources", "supported"],
+  "properties": {
+    "answer": {"type": "string"},
+    "sources": {"type": "array", "items": {"type": "string"}},
+    "supported": {"type": "boolean"}
+  }
+}

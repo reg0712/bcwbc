@@ -1,0 +1,14 @@
+# Mock cost units, not real prices, so mock numbers are reproducible.
+cost_per_1k_tokens: {small: 1, large: 10}
+
+# Live prices in USD per 1,000 tokens (output includes thinking tokens), paid tier, from
+# https://ai.google.dev/gemini-api/docs/pricing as of 2026-10-31. The free tier costs nothing;
+# these give the estimated cost a paying bank would see. gemini-3.5-flash doubles to
+# 0.0015 in / 0.0075 out on 2027-01-01.
+live_usd_per_1k_tokens:
+  groq:
+    small: {in: 0.000075, out: 0.00030}  # GPT-OSS 20B, Groq paid rate
+    large: {in: 0.00015, out: 0.00060}   # GPT-OSS 120B, Groq paid rate
+  gemini:
+    small: {in: 0.00025, out: 0.0015}    # gemini-3.1-flash-lite
+    large: {in: 0.00075, out: 0.00375}   # gemini-3.5-flash

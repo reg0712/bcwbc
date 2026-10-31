@@ -1,0 +1,18 @@
+.env
+.env.*
+!.env.example
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+
+# SYNAPSE
+.venv/
+*.egg-info/
+.pytest_cache/
+*.db
+ui/dist/
+
+# Team execution plan: kept out of the repo
+/SYNAPSE Execution Plan.pdf
+bench/results/*.json

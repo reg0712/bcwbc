@@ -1,0 +1,24 @@
+Classify a bank customer's complaint and route it to the team that handles it.
+
+Categories:
+- failed_transfer: a UPI, IMPS, NEFT or RTGS transfer or payment was debited but has not
+  reached the beneficiary
+- card_dispute: a debit or credit card charge the customer does not recognise, a duplicate card
+  charge, or any other disputed card payment
+- atm_cash: an ATM did not dispense cash, or dispensed less than requested, but the account was
+  debited
+- loan_charges: a loan EMI debit, a bounce or penal charge, or a foreclosure or prepayment charge
+- account_access: the customer cannot log in to net banking or mobile banking, or the account is
+  locked or frozen, including for KYC
+- other: anything else
+
+Teams: digital_payments for failed_transfer, card_disputes for card_dispute, atm_operations for
+atm_cash, loan_servicing for loan_charges, account_services for account_access and customer_care
+for other. If the customer reports a transaction they did not make, a lost or stolen card, or
+fraud, the team is fraud_response whatever the category.
+
+Priority is high for suspected fraud or when INR 50,000 or more is at stake, and normal otherwise.
+
+Return JSON with three fields: category, team and priority.
+
+{inputs}

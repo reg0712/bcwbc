@@ -1,0 +1,25 @@
+# Model tiers: nodes ask for "small" or "large", and this file maps each tier to a real
+# model per provider. Check rate limits in each provider's console on the day.
+live_provider: gemini   # used with --live; mock mode needs no keys
+embedding_model: sentence-transformers/all-MiniLM-L6-v2   # local retrieval and similarity
+
+providers:
+  mock:
+    small: mock-small
+    large: mock-large
+    max_concurrency: 8
+  gemini:
+    # Checked 2026-10-31 with the free-tier key: both answer and both honour temperature 0.
+    # Gemini 2.5 is closed to new keys; gemini-3.5-flash-lite and gemini-3.6-flash ignore
+    # temperature, so they would break the repeatable-output rule.
+    small: gemini-3.1-flash-lite
+    large: gemini-3.5-flash
+    thinking_level: {large: low}   # gemini-3.5-flash thinks by default; low keeps it quick
+    max_concurrency: 4
+    max_retries: 4                 # rate-limit retries per call, with backoff
+  groq:
+    # Supported on the Groq free plan; the prior Llama IDs were retired for free accounts.
+    small: openai/gpt-oss-20b
+    large: openai/gpt-oss-120b
+    max_concurrency: 2
+    max_retries: 2

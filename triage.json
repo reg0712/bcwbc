@@ -1,0 +1,11 @@
+{
+  "title": "Triage",
+  "type": "object",
+  "properties": {
+    "category": {"type": "string", "enum": ["failed_transfer", "card_dispute", "atm_cash", "loan_charges", "account_access", "other"]},
+    "team": {"type": "string", "enum": ["digital_payments", "card_disputes", "fraud_response", "atm_operations", "loan_servicing", "account_services", "customer_care"]},
+    "priority": {"type": "string", "enum": ["high", "normal"]}
+  },
+  "required": ["category", "team", "priority"],
+  "additionalProperties": false
+}

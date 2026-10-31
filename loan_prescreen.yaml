@@ -1,0 +1,105 @@
+# Loan pre-screening agent, the headline demo. Nodes are listed in the order a typical
+# hand-written agent runs them, one after another. Comments mark the inefficiencies seeded
+# on purpose; SYNAPSE has to find every one of them without hints.
+workflow: loan_prescreen
+input: [application_pdf, customer_id]
+output: [risk, sms]
+nodes:
+  - id: parse_app
+    kind: llm
+    model: large
+    max_output_tokens: 512
+    prompt: prompts/parse_app.txt
+    inputs: [application_pdf]
+    outputs: [applicant]
+    effect: pure
+    tests: [schema: applicant.json]
+
+  - id: kyc_check
+    kind: tool
+    tool: kyc_api
+    inputs: [applicant.pan, applicant.name]
+    outputs: [kyc_status]
+    effect: read
+    deterministic: true
+    ttl_s: 86400
+
+  - id: bureau_check            # called again for the same PAN on every repeat application
+    kind: tool
+    tool: bureau_api
+    inputs: [applicant.pan]
+    outputs: [bureau]
+    effect: read
+    deterministic: true
+    ttl_s: 3600
+
+  - id: fetch_statement
+    kind: tool
+    tool: statement_api
+    inputs: [customer_id]
+    outputs: [statement]
+    effect: read
+    deterministic: true
+    ttl_s: 900                  # balances change, so only a short expiry
+
+  - id: statement_analysis
+    kind: llm
+    model: large
+    max_output_tokens: 512
+    prompt: prompts/statement_analysis.txt
+    inputs: [statement]
+    outputs: [cashflow]
+    effect: pure
+    tests: [schema: cashflow.json]
+
+  - id: policy_lookup_1
+    kind: retrieve
+    index: lending_policy
+    query: personal loan eligibility
+    outputs: [policy_a]
+    effect: pure
+    deterministic: true
+
+  - id: policy_lookup_2         # duplicate of policy_lookup_1
+    kind: retrieve
+    index: lending_policy
+    query: personal loan eligibility
+    outputs: [policy_b]
+    effect: pure
+    deterministic: true
+
+  - id: offers_lookup           # output never used
+    kind: tool
+    tool: offers_api
+    inputs: [customer_id]
+    outputs: [offers]
+    effect: read
+    deterministic: true
+    ttl_s: 3600
+
+  - id: classify_segment        # trivial task on a large model
+    kind: llm
+    model: large
+    max_output_tokens: 256
+    prompt: prompts/classify_segment.txt
+    inputs: [applicant.income, applicant.employment]
+    outputs: [segment]
+    effect: pure
+    tests: [schema: segment.json]
+
+  - id: risk_summary
+    kind: llm
+    model: large
+    max_output_tokens: 768
+    prompt: prompts/risk_summary.txt
+    inputs: [kyc_status, bureau, cashflow, policy_a, policy_b, segment]
+    outputs: [risk]
+    effect: pure
+    tests: [schema: risk.json]
+
+  - id: notify_customer         # write: never cached, merged, reordered or run speculatively
+    kind: tool
+    tool: sms_gateway
+    inputs: [customer_id, risk.decision]
+    outputs: [sms]
+    effect: write

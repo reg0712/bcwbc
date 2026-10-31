@@ -1,0 +1,25 @@
+{
+  "note": "Synthetic lending policy for the SYNAPSE demo; not any real bank's policy.",
+  "passages": [
+    {"id": "lp-01", "title": "Personal loan eligibility",
+     "text": "Personal loans are available to resident individuals aged 21 to 60 with a verified PAN. Minimum net monthly income is INR 25,000 for salaried applicants and INR 40,000 for self-employed applicants, with at least one year in the current job or business."},
+    {"id": "lp-02", "title": "Credit bureau score bands",
+     "text": "Applications with a bureau score below 650 are declined. Scores from 650 to 720 are referred to a credit officer for manual review. Scores above 720 qualify for straight-through approval when every other check passes."},
+    {"id": "lp-03", "title": "Fixed obligations to income ratio",
+     "text": "Existing monthly EMIs, before the new loan, must not exceed 50% of net monthly income. Applications above this limit are referred for manual review rather than declined outright."},
+    {"id": "lp-04", "title": "KYC requirements",
+     "text": "PAN and name must match the KYC registry. If KYC verification fails, the application is declined and the customer is asked to update KYC at a branch; no credit assessment is shared."},
+    {"id": "lp-05", "title": "Loan amount and tenure",
+     "text": "The loan amount may not exceed 20 times net monthly income, up to INR 25,00,000. Tenure ranges from 12 to 60 months."},
+    {"id": "lp-06", "title": "Bank statement review",
+     "text": "Six months of statements are reviewed for regular income credits and EMI debits. Two or more bounced payments in six months are flagged in the risk summary."},
+    {"id": "lp-07", "title": "Employment categories",
+     "text": "Salaried, self-employed and contract workers are eligible. Contract workers need a contract with at least six months remaining."},
+    {"id": "lp-08", "title": "Customer communication",
+     "text": "Pre-screening outcomes are sent by SMS within one business day. Messages state the outcome (approve, refer or decline) and never include the bureau score or the reasons for a decline."},
+    {"id": "lp-09", "title": "Pricing bands",
+     "text": "Interest rates are set by segment: salaried prime 10.5% to 12%, salaried mass 12% to 15%, self-employed 13% to 16%, contract 15% to 18%."},
+    {"id": "lp-10", "title": "Fraud and identity checks",
+     "text": "Mismatched names, recently issued PANs, or declared income that does not match statement credits are escalated to the fraud team before any decision."}
+  ]
+}

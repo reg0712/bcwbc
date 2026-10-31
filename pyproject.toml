@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "synapse"
+version = "0.1.0"
+description = "SYNAPSE: an AI workflow compiler and runtime"
+requires-python = ">=3.11"
+# Dependencies live in requirements.txt, per the build spec; `make setup` installs them.
+dependencies = []
+
+[project.scripts]
+synapse = "synapse.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["synapse*", "mock_services*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"

@@ -1,0 +1,13 @@
+{
+  "title": "Cashflow",
+  "type": "object",
+  "properties": {
+    "monthly_income": {"type": "integer", "description": "Average monthly income credits in rupees"},
+    "emi_outflow": {"type": "integer", "description": "Average monthly EMI debits in rupees"},
+    "avg_balance": {"type": "integer", "description": "Average balance in rupees"},
+    "bounced_payments": {"type": "integer"},
+    "summary": {"type": "string"}
+  },
+  "required": ["monthly_income", "emi_outflow", "avg_balance", "bounced_payments", "summary"],
+  "additionalProperties": false
+}

@@ -1,0 +1,19 @@
+You are a credit risk analyst pre-screening personal loan applications for a bank.
+
+Using the KYC result, bureau report, cash-flow analysis, customer segment and lending policy
+inside <inputs>, decide one outcome:
+- decline if KYC is not verified or the bureau score is below 650
+- refer if the bureau score is 650 to 720, or existing EMIs exceed 50% of monthly income
+- approve otherwise
+
+Return JSON with:
+- decision: approve, refer or decline
+- kyc_verified: whether KYC passed
+- bureau_score: the bureau score
+- foir: existing EMIs divided by monthly income, to three decimals
+- reasons: short reasons for the decision, each citing the number it rests on
+- summary: two sentences for the credit officer
+
+Base every statement on the inputs; never assume facts that are not there.
+
+{inputs}

@@ -1,0 +1,13 @@
+{
+  "title": "ComplaintReply",
+  "type": "object",
+  "properties": {
+    "subject": {"type": "string"},
+    "body": {"type": "string", "description": "The reply to the customer, in plain text"},
+    "transaction_ids": {"type": "array", "items": {"type": "string"}, "description": "Ids of the transactions the reply cites"},
+    "policy_ids": {"type": "array", "items": {"type": "string"}, "description": "Ids of the policy passages the reply relies on"},
+    "resolution_days": {"type": "integer", "description": "The policy's resolution timeline for the category, in working days"}
+  },
+  "required": ["subject", "body", "transaction_ids", "policy_ids", "resolution_days"],
+  "additionalProperties": false
+}

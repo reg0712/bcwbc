@@ -1,0 +1,11 @@
+Classify a loan applicant into one customer segment.
+
+Segments:
+- salaried_prime: salaried, with net monthly income of INR 1,00,000 or more
+- salaried_mass: salaried, with net monthly income below INR 1,00,000
+- self_employed: runs their own business
+- contract: works on fixed-term contracts
+
+Return JSON with one field, label, set to the segment name.
+
+{inputs}

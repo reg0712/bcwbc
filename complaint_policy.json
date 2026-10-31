@@ -1,0 +1,25 @@
+{
+  "note": "Synthetic complaint-handling policy for the SYNAPSE demo; not any real bank's policy.",
+  "passages": [
+    {"id": "cp-01", "title": "Complaint resolution timelines",
+     "text": "Every complaint has a resolution timeline in working days, counted from the day it is logged. Failed transfers, where a UPI, IMPS or NEFT debit has not reached the beneficiary, are resolved within 2 working days. Card disputes, including unrecognised and duplicate card charges, are resolved within 10 working days. ATM complaints, where cash was not dispensed or was short dispensed, are resolved within 5 working days. Loan EMI and loan charges complaints are resolved within 7 working days. Account access and KYC complaints are resolved within 3 working days. All other complaints are resolved within 7 working days."},
+    {"id": "cp-02", "title": "Failed transfer reversals",
+     "text": "When a UPI, IMPS or NEFT transfer is debited from the customer's account but not credited to the beneficiary, the digital payments team checks the transaction with the beneficiary's bank. If the beneficiary was not credited, the amount is returned to the customer's account; if it was credited, the customer is given the beneficiary bank's reference number."},
+    {"id": "cp-03", "title": "Card disputes and chargebacks",
+     "text": "A customer can dispute a card charge within 120 days of the transaction. The card disputes team raises a chargeback with the merchant's bank and gives the customer a provisional credit while the dispute is open. A duplicate charge is reversed once the merchant's bank confirms it."},
+    {"id": "cp-04", "title": "Unauthorised transactions and fraud",
+     "text": "A transaction the customer did not make, or one made on a lost or stolen card, goes straight to the fraud response team, and the card is blocked if it is not already. When the customer reports it within 3 working days, their liability is zero and the amount is credited back within 10 working days."},
+    {"id": "cp-05", "title": "ATM cash disputes",
+     "text": "When an ATM does not dispense cash, or dispenses less than requested, but the account is debited, the ATM operations team checks the machine's cash count and switch log. Any amount not dispensed is credited back to the customer. If the credit is late, the customer is paid INR 100 for each day of delay."},
+    {"id": "cp-06", "title": "Loan EMI and charges",
+     "text": "Loan servicing reviews EMI debits, bounce charges, penal charges and foreclosure charges against the loan agreement. A duplicate EMI debit, or a charge the agreement does not allow, is refunded to the customer's account."},
+    {"id": "cp-07", "title": "Account access and KYC",
+     "text": "Locked net banking or mobile banking access is reset once the customer's identity is verified through the registered mobile number. An account frozen for KYC is reactivated once the documents the customer submitted are verified; the customer does not need to submit them again."},
+    {"id": "cp-08", "title": "Customer communication rules",
+     "text": "Replies to complaints use plain language, address the customer by first name, cite each transaction concerned by date, amount and reference, and state the resolution timeline. A reply never asks for a PIN, OTP, password or full card number, and never promises an outcome before the investigation is complete."},
+    {"id": "cp-09", "title": "Escalation to the grievance officer",
+     "text": "If a complaint is not resolved within its timeline, or the customer is not satisfied with the reply, the customer can escalate to the Grievance Redressal Officer, who responds within 10 working days. A complaint still unresolved after 30 days can be taken to the banking ombudsman."},
+    {"id": "cp-10", "title": "Complaint logging and priority",
+     "text": "Every complaint is logged as a ticket with its category, routing team and priority before a reply is sent. Suspected fraud, and complaints involving INR 50,000 or more, are logged as high priority."}
+  ]
+}

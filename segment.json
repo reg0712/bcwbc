@@ -1,0 +1,9 @@
+{
+  "title": "Segment",
+  "type": "object",
+  "properties": {
+    "label": {"type": "string", "enum": ["salaried_prime", "salaried_mass", "self_employed", "contract"]}
+  },
+  "required": ["label"],
+  "additionalProperties": false
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Applicant",
+  "type": "object",
+  "properties": {
+    "name": {"type": "string"},
+    "pan": {"type": "string"},
+    "income": {"type": "integer", "description": "Net monthly income in rupees"},
+    "employment": {"type": "string", "enum": ["salaried", "self_employed", "contract"]},
+    "requested_amount": {"type": "integer", "description": "Loan amount requested in rupees"}
+  },
+  "required": ["name", "pan", "income", "employment", "requested_amount"],
+  "additionalProperties": false
+}

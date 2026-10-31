@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SYNAPSE · workflow compiler dashboard</title>
+<link rel="stylesheet" href="/ui/style.css?v=11">
+</head>
+<body>
+<div id="sourceNotice" style="padding:1rem;margin:1rem;border:2px solid #b45309;border-radius:8px;font:1rem system-ui;background:#fff7ed;color:#431407">
+  This is the dashboard source file. Open the running dashboard at
+  <a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a>.
+  If that address is unavailable, run <code>make api</code> from the SYNAPSE folder.
+</div>
+<header class="top">
+  <div class="brand">
+    <h1>SYNAPSE</h1>
+    <p>Compile, measure and verify banking agent workflows</p>
+  </div>
+  <div class="controls">
+    <label for="workflow">Workflow</label>
+    <select id="workflow" aria-label="Workflow"></select>
+    <span class="badge" id="dataBadge">Synthetic data · mock bank</span>
+    <button id="theme" type="button" title="Switch between light, dark and system theme">Theme: auto</button>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Dashboard screens">
+  <button role="tab" data-screen="graph" aria-selected="true"><span class="key">1</span>Workflow graph</button>
+  <button role="tab" data-screen="timeline" aria-selected="false"><span class="key">2</span>Execution timeline</button>
+  <button role="tab" data-screen="decisions" aria-selected="false"><span class="key">3</span>Decision log</button>
+  <button role="tab" data-screen="validation" aria-selected="false"><span class="key">4</span>Validation</button>
+  <button role="tab" data-screen="benchmarks" aria-selected="false"><span class="key">5</span>Benchmarks</button>
+  <button role="tab" data-screen="live" aria-selected="false"><span class="key">6</span>Live run</button>
+</nav>
+
+<main>
+  <section id="graph" class="screen active" role="tabpanel" aria-label="Workflow graph">
+    <header>
+      <div>
+        <h2>Original and compiled workflow</h2>
+        <p class="lede">The original runs one step after another, in file order. The compiled plan runs each step as soon as the data it reads exists; steps in one dashed box start together.</p>
+      </div>
+      <div class="chips" id="graphSummary"></div>
+    </header>
+    <div class="grid-2">
+      <div class="card"><h3>Original · file order</h3><div class="graph-wrap" id="graphOriginal"><p class="muted">Compiling…</p></div></div>
+      <div class="card"><h3>Compiled plan</h3><div class="graph-wrap" id="graphCompiled"></div></div>
+    </div>
+    <div class="legend" id="graphLegend">
+      <span><i class="swatch" style="border:2px solid var(--pure)"></i>pure</span>
+      <span><i class="swatch" style="border:2px solid var(--read)"></i>reads outside data</span>
+      <span><i class="swatch" style="border:3px solid var(--write)"></i>write (never cached, merged or reordered)</span>
+      <span><i class="swatch" style="border:2px dashed var(--gate)"></i>removed or merged</span>
+      <span><i class="swatch" style="background:var(--routed);border:2px solid var(--routed-line)"></i>routed to another model</span>
+      <span><i class="swatch" style="border:2px dashed var(--accent)"></i>runs in parallel</span>
+    </div>
+  </section>
+
+  <section id="timeline" class="screen" role="tabpanel" aria-label="Execution timeline">
+    <header>
+      <div>
+        <h2>Execution timeline</h2>
+        <p class="lede">One bar per step, positioned by when it actually started and ended. The original is above the compiled plan, on the same time axis; overlapping bars are steps running at the same time.</p>
+      </div>
+      <div class="controls">
+        <label for="timelineCase">Case</label>
+        <select id="timelineCase"></select>
+        <label for="timelineScale">Mock delays</label>
+        <select id="timelineScale"></select>
+        <button id="timelineRun" class="primary" type="button">Run both</button>
+      </div>
+    </header>
+    <div class="card"><div class="gantt" id="timelineGantt"><p class="muted">Press Run both to measure this case.</p></div>
+      <div class="legend" id="timelineLegend"></div>
+    </div>
+  </section>
+
+  <section id="decisions" class="screen" role="tabpanel" aria-label="Decision log">
+    <header>
+      <div>
+        <h2>Compiler decision log</h2>
+        <p class="lede">Every pass the compiler considered, why it acted or held back, the gain it predicted from the measured profile, the gain the benchmark measured, and whether validation accepted it.</p>
+      </div>
+    </header>
+    <div class="card scroll"><table>
+      <thead><tr><th>Pass</th><th>Compiler</th><th>Validation</th><th>Steps</th><th>Reason</th><th class="num">Predicted gain</th><th class="num">Measured gain</th><th class="num">Cost change</th></tr></thead>
+      <tbody id="decisionRows"><tr><td colspan="8" class="muted">Compiling…</td></tr></tbody>
+    </table>
+    <p class="note" id="decisionNote"></p></div>
+  </section>
+
+  <section id="validation" class="screen" role="tabpanel" aria-label="Validation">
+    <header>
+      <div>
+        <h2>Correctness validation</h2>
+        <p class="lede">Each pass is added on its own and its outputs are compared with the original workflow on every test case. A pass that changes any checked output is rejected and left out of the plan.</p>
+      </div>
+      <div class="controls">
+        <label id="unsafeLabel"><input type="checkbox" id="unsafe"> Include the deliberately unsafe demo pass</label>
+        <button id="validateRun" class="primary" type="button">Validate</button>
+      </div>
+    </header>
+    <p class="status" id="validationStatus">Not validated in this session yet.</p>
+    <div id="validationContent"></div>
+  </section>
+
+  <section id="benchmarks" class="screen" role="tabpanel" aria-label="Benchmarks">
+    <header>
+      <div>
+        <h2>Measured benchmark</h2>
+        <p class="lede">Same executor, inputs, concurrency cap and test set for every configuration; only the passes differ. The headline is the cache-cold median; warm-cache runs (a repeat customer) are shown separately.</p>
+      </div>
+      <div class="segmented" role="group" aria-label="Benchmark mode">
+        <button type="button" data-bench-mode="mock" aria-pressed="true">Mock</button>
+        <button type="button" data-bench-mode="live" aria-pressed="false">Live</button>
+      </div>
+    </header>
+    <div id="benchContent"><p class="muted">Loading results…</p></div>
+  </section>
+
+  <section id="live" class="screen" role="tabpanel" aria-label="Live run">
+    <header>
+      <div>
+        <h2>Run a synthetic case</h2>
+        <p class="lede">Mock compares both versions. Live models run the compiled plan once by default to save API calls; select Compare both when you need a measured comparison.</p>
+      </div>
+      <div class="controls">
+        <label for="liveCase">Case</label>
+        <select id="liveCase"></select>
+        <label for="liveScale">Mock delays</label>
+        <select id="liveScale"></select>
+        <label for="liveModel">Model</label>
+        <select id="liveModel" aria-label="Model"><option value="mock|">Mock · offline</option></select>
+        <label><input type="checkbox" id="compareLive"> Compare both</label>
+        <label><input type="checkbox" id="warmCache"> Reuse exact results</label>
+        <button id="liveRun" class="primary" type="button">Run compiled</button>
+      </div>
+    </header>
+    <p class="note" id="budgetStatus">Mock uses no model API calls.</p>
+    <p class="status" id="liveStatus">Choose a provider, then run one synthetic case.</p>
+    <div class="timers">
+      <div class="timer baseline" id="timerBaseline"></div>
+      <div class="timer compiled" id="timerCompiled"></div>
+    </div>
+    <div class="metrics" id="liveResult"></div>
+    <p class="note" id="costNote">Mock costs are comparison units, not dollars.</p>
+    <div class="card"><h3>Timeline</h3><div class="gantt" id="liveGantt"><p class="muted">Press run to start.</p></div></div>
+  </section>
+</main>
+
+<footer>All people, accounts, decisions and bank responses here are synthetic. Mock cost units are not currency. No production banking system is connected. Every figure on this page comes from a run made by this server or from the benchmark file it reads.</footer>
+<script src="/ui/app.js?v=11"></script>
+</body>
+</html>

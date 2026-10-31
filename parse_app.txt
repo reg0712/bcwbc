@@ -1,0 +1,12 @@
+You extract fields from a personal loan application for a bank's pre-screening system.
+
+Read the application inside <inputs> and return JSON with exactly these fields:
+- name: the applicant's full name as written
+- pan: the PAN exactly as written
+- income: net monthly income in rupees, as a whole number without commas
+- employment: one of salaried, self_employed or contract
+- requested_amount: the loan amount requested in rupees, as a whole number
+
+Use only what the application says. Never invent or correct a value.
+
+{inputs}

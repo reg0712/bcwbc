@@ -1,0 +1,1655 @@
+[
+  {
+    "workflow": "loan_prescreen",
+    "source": "workflows/loan_prescreen.yaml",
+    "mode": "mock",
+    "provider": "mock",
+    "cost_unit": "mock units",
+    "created_at": "2026-10-31T16:32:10.250223+00:00",
+    "duration_s": 55.2,
+    "repeats": 3,
+    "cases": 20,
+    "case_ids": [
+      "A01",
+      "A02",
+      "A03",
+      "A04",
+      "A05",
+      "A06",
+      "A07",
+      "A08",
+      "A09",
+      "A10",
+      "A11",
+      "A12",
+      "A13",
+      "A14",
+      "A15",
+      "A16",
+      "A17",
+      "A18",
+      "A19",
+      "A20"
+    ],
+    "latency_scale": 0.01,
+    "concurrency_cap": 8,
+    "correctness": "risk.decision matches the test rule",
+    "method": "median and p95 wall time over repeats x cases; cold runs start with an empty cache, warm runs reuse a cache filled by one unmeasured pass",
+    "steps": [
+      {
+        "name": "baseline",
+        "label": "baseline",
+        "passes": []
+      },
+      {
+        "name": "dead_nodes",
+        "label": "+ dead nodes",
+        "passes": [
+          "dead_nodes"
+        ]
+      },
+      {
+        "name": "cse",
+        "label": "+ duplicates (CSE)",
+        "passes": [
+          "dead_nodes",
+          "cse"
+        ]
+      },
+      {
+        "name": "compact_inputs",
+        "label": "+ compact inputs",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs"
+        ]
+      },
+      {
+        "name": "parallelise",
+        "label": "+ parallelisation",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise"
+        ]
+      },
+      {
+        "name": "routing",
+        "label": "+ routing",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing"
+        ]
+      },
+      {
+        "name": "memoise",
+        "label": "+ caching",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing",
+          "memoise"
+        ]
+      }
+    ],
+    "configurations": [
+      {
+        "name": "baseline",
+        "label": "baseline",
+        "passes": [],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 132.09370500044315,
+        "p95_ms": 136.8928492993291,
+        "mean_ms": 131.99768323344566,
+        "critical_path_ms": 130.13269400289573,
+        "critical_path": [
+          "parse_app",
+          "kyc_check",
+          "bureau_check",
+          "fetch_statement",
+          "statement_analysis",
+          "policy_lookup_1",
+          "policy_lookup_2",
+          "offers_lookup",
+          "classify_segment",
+          "risk_summary",
+          "notify_customer"
+        ],
+        "mean_cost": 19.503999999999998,
+        "mean_llm_calls": 4,
+        "mean_tool_calls": 7,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1803.15,
+        "mean_tokens_out": 147.25,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "baseline",
+        "label": "baseline",
+        "passes": [],
+        "cache": "warm",
+        "runs": 60,
+        "p50_ms": 132.25140050053596,
+        "p95_ms": 143.83147560165526,
+        "mean_ms": 141.12445424986313,
+        "critical_path_ms": 130.1332930015633,
+        "critical_path": [
+          "parse_app",
+          "kyc_check",
+          "bureau_check",
+          "fetch_statement",
+          "statement_analysis",
+          "policy_lookup_1",
+          "policy_lookup_2",
+          "offers_lookup",
+          "classify_segment",
+          "risk_summary",
+          "notify_customer"
+        ],
+        "mean_cost": 19.503999999999998,
+        "mean_llm_calls": 4,
+        "mean_tool_calls": 7,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1803.15,
+        "mean_tokens_out": 147.25,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "dead_nodes",
+        "label": "+ dead nodes",
+        "passes": [
+          "dead_nodes"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 126.35357150065829,
+        "p95_ms": 134.01821145071153,
+        "mean_ms": 127.55352551672938,
+        "critical_path_ms": 124.44240000331774,
+        "critical_path": [
+          "parse_app",
+          "kyc_check",
+          "bureau_check",
+          "fetch_statement",
+          "statement_analysis",
+          "policy_lookup_1",
+          "policy_lookup_2",
+          "classify_segment",
+          "risk_summary",
+          "notify_customer"
+        ],
+        "mean_cost": 19.503999999999998,
+        "mean_llm_calls": 4,
+        "mean_tool_calls": 6,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1803.15,
+        "mean_tokens_out": 147.25,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "cse",
+        "label": "+ duplicates (CSE)",
+        "passes": [
+          "dead_nodes",
+          "cse"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 114.73959700197156,
+        "p95_ms": 184.39434540050556,
+        "mean_ms": 128.87194200011436,
+        "critical_path_ms": 113.7043305025145,
+        "critical_path": [
+          "parse_app",
+          "kyc_check",
+          "bureau_check",
+          "fetch_statement",
+          "statement_analysis",
+          "policy_lookup_1",
+          "classify_segment",
+          "risk_summary",
+          "notify_customer"
+        ],
+        "mean_cost": 17.4635,
+        "mean_llm_calls": 4,
+        "mean_tool_calls": 5,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1599.1,
+        "mean_tokens_out": 147.25,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "compact_inputs",
+        "label": "+ compact inputs",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 115.00797799817519,
+        "p95_ms": 122.38282974849426,
+        "mean_ms": 116.30807951654181,
+        "critical_path_ms": 113.67245350083977,
+        "critical_path": [
+          "parse_app",
+          "kyc_check",
+          "bureau_check",
+          "fetch_statement",
+          "statement_analysis",
+          "policy_lookup_1",
+          "classify_segment",
+          "risk_summary",
+          "notify_customer"
+        ],
+        "mean_cost": 15.0365,
+        "mean_llm_calls": 4,
+        "mean_tool_calls": 5,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1356.4,
+        "mean_tokens_out": 147.25,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "parallelise",
+        "label": "+ parallelisation",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 55.151456499515916,
+        "p95_ms": 61.40877569996519,
+        "mean_ms": 55.8780799999416,
+        "critical_path_ms": 53.035722999993595,
+        "critical_path": [
+          "parse_app",
+          "classify_segment",
+          "risk_summary",
+          "notify_customer"
+        ],
+        "mean_cost": 15.0365,
+        "mean_llm_calls": 4,
+        "mean_tool_calls": 5,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1356.4,
+        "mean_tokens_out": 147.25,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "routing",
+        "label": "+ routing",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 41.854204500850756,
+        "p95_ms": 48.90566565190966,
+        "mean_ms": 42.26319336685265,
+        "critical_path_ms": 40.519416997994995,
+        "critical_path": [
+          "fetch_statement",
+          "statement_analysis",
+          "risk_summary",
+          "notify_customer"
+        ],
+        "mean_cost": 6.7501999999999995,
+        "mean_llm_calls": 4.15,
+        "mean_tool_calls": 5,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1372.75,
+        "mean_tokens_out": 148,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "memoise",
+        "label": "+ caching",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing",
+          "memoise"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 40.86707850001403,
+        "p95_ms": 49.54955430148399,
+        "mean_ms": 43.05544743322874,
+        "critical_path_ms": 39.909308497954044,
+        "critical_path": [
+          "fetch_statement",
+          "statement_analysis",
+          "risk_summary",
+          "notify_customer"
+        ],
+        "mean_cost": 6.7501999999999995,
+        "mean_llm_calls": 4.15,
+        "mean_tool_calls": 5,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1372.75,
+        "mean_tokens_out": 148,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "memoise",
+        "label": "+ caching",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing",
+          "memoise"
+        ],
+        "cache": "warm",
+        "runs": 60,
+        "p50_ms": 19.552852001652354,
+        "p95_ms": 20.7361470491378,
+        "mean_ms": 19.718346933223074,
+        "critical_path_ms": 18.92649300134508,
+        "critical_path": [
+          "fetch_statement",
+          "statement_analysis",
+          "risk_summary",
+          "notify_customer"
+        ],
+        "mean_cost": 0.0,
+        "mean_llm_calls": 0,
+        "mean_tool_calls": 4,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 0,
+        "mean_tokens_out": 0,
+        "mean_cache_hits": 5,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      }
+    ],
+    "summary": {
+      "from": "baseline",
+      "to": "memoise",
+      "cold_p50_ms": [
+        132.09370500044315,
+        40.86707850001403
+      ],
+      "cold_speedup": 3.232276684529769,
+      "mean_cost": [
+        19.503999999999998,
+        6.7501999999999995
+      ],
+      "mean_llm_calls": [
+        4,
+        4.15
+      ],
+      "correct_rate": [
+        1.0,
+        1.0
+      ],
+      "warm_p50_ms": [
+        132.25140050053596,
+        19.552852001652354
+      ],
+      "warm_speedup": 6.763790800920489
+    },
+    "sample": true
+  },
+  {
+    "workflow": "complaint_triage",
+    "source": "workflows/complaint_triage.yaml",
+    "mode": "mock",
+    "provider": "mock",
+    "cost_unit": "mock units",
+    "created_at": "2026-10-31T16:32:32.921101+00:00",
+    "duration_s": 22.7,
+    "repeats": 3,
+    "cases": 17,
+    "case_ids": [
+      "C01",
+      "C02",
+      "C03",
+      "C04",
+      "C05",
+      "C06",
+      "C07",
+      "C08",
+      "C09",
+      "C10",
+      "C11",
+      "C12",
+      "C13",
+      "C14",
+      "C15",
+      "C16",
+      "C17"
+    ],
+    "latency_scale": 0.01,
+    "concurrency_cap": 8,
+    "correctness": "triage.category matches the test rule",
+    "method": "median and p95 wall time over repeats x cases; cold runs start with an empty cache, warm runs reuse a cache filled by one unmeasured pass",
+    "steps": [
+      {
+        "name": "baseline",
+        "label": "baseline",
+        "passes": []
+      },
+      {
+        "name": "dead_nodes",
+        "label": "+ dead nodes",
+        "passes": [
+          "dead_nodes"
+        ]
+      },
+      {
+        "name": "cse",
+        "label": "+ duplicates (CSE)",
+        "passes": [
+          "dead_nodes",
+          "cse"
+        ]
+      },
+      {
+        "name": "compact_inputs",
+        "label": "+ compact inputs",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs"
+        ]
+      },
+      {
+        "name": "parallelise",
+        "label": "+ parallelisation",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise"
+        ]
+      },
+      {
+        "name": "routing",
+        "label": "+ routing",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing"
+        ]
+      },
+      {
+        "name": "memoise",
+        "label": "+ caching",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing",
+          "memoise"
+        ]
+      }
+    ],
+    "configurations": [
+      {
+        "name": "baseline",
+        "label": "baseline",
+        "passes": [],
+        "cache": "cold",
+        "runs": 51,
+        "p50_ms": 56.32576599964523,
+        "p95_ms": 58.154860000286135,
+        "mean_ms": 56.66747888237439,
+        "critical_path_ms": 55.761264000466326,
+        "critical_path": [
+          "classify_complaint",
+          "fetch_transactions",
+          "policy_lookup",
+          "draft_reply",
+          "log_ticket"
+        ],
+        "mean_cost": 14.792352941176471,
+        "mean_llm_calls": 2,
+        "mean_tool_calls": 3,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1275.5882352941176,
+        "mean_tokens_out": 203.64705882352942,
+        "mean_cache_hits": 0,
+        "correct": 51,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "baseline",
+        "label": "baseline",
+        "passes": [],
+        "cache": "warm",
+        "runs": 51,
+        "p50_ms": 56.34174899751088,
+        "p95_ms": 57.64024800009793,
+        "mean_ms": 56.42771966642399,
+        "critical_path_ms": 55.853007008408895,
+        "critical_path": [
+          "classify_complaint",
+          "fetch_transactions",
+          "policy_lookup",
+          "draft_reply",
+          "log_ticket"
+        ],
+        "mean_cost": 14.792352941176471,
+        "mean_llm_calls": 2,
+        "mean_tool_calls": 3,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1275.5882352941176,
+        "mean_tokens_out": 203.64705882352942,
+        "mean_cache_hits": 0,
+        "correct": 51,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "dead_nodes",
+        "label": "+ dead nodes",
+        "passes": [
+          "dead_nodes"
+        ],
+        "cache": "cold",
+        "runs": 51,
+        "p50_ms": 56.90521199721843,
+        "p95_ms": 60.45036599971354,
+        "mean_ms": 57.58245601956493,
+        "critical_path_ms": 56.35172400070587,
+        "critical_path": [
+          "classify_complaint",
+          "fetch_transactions",
+          "policy_lookup",
+          "draft_reply",
+          "log_ticket"
+        ],
+        "mean_cost": 14.792352941176471,
+        "mean_llm_calls": 2,
+        "mean_tool_calls": 3,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1275.5882352941176,
+        "mean_tokens_out": 203.64705882352942,
+        "mean_cache_hits": 0,
+        "correct": 51,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "cse",
+        "label": "+ duplicates (CSE)",
+        "passes": [
+          "dead_nodes",
+          "cse"
+        ],
+        "cache": "cold",
+        "runs": 51,
+        "p50_ms": 57.0540090011491,
+        "p95_ms": 61.1609400020825,
+        "mean_ms": 58.884116941543674,
+        "critical_path_ms": 56.24043500574771,
+        "critical_path": [
+          "classify_complaint",
+          "fetch_transactions",
+          "policy_lookup",
+          "draft_reply",
+          "log_ticket"
+        ],
+        "mean_cost": 14.792352941176471,
+        "mean_llm_calls": 2,
+        "mean_tool_calls": 3,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1275.5882352941176,
+        "mean_tokens_out": 203.64705882352942,
+        "mean_cache_hits": 0,
+        "correct": 51,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "compact_inputs",
+        "label": "+ compact inputs",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs"
+        ],
+        "cache": "cold",
+        "runs": 51,
+        "p50_ms": 56.960681002237834,
+        "p95_ms": 62.57739099964965,
+        "mean_ms": 57.73129425499207,
+        "critical_path_ms": 56.37044199829688,
+        "critical_path": [
+          "classify_complaint",
+          "fetch_transactions",
+          "policy_lookup",
+          "draft_reply",
+          "log_ticket"
+        ],
+        "mean_cost": 14.37764705882353,
+        "mean_llm_calls": 2,
+        "mean_tool_calls": 3,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1234.1176470588234,
+        "mean_tokens_out": 203.64705882352942,
+        "mean_cache_hits": 0,
+        "correct": 51,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "parallelise",
+        "label": "+ parallelisation",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise"
+        ],
+        "cache": "cold",
+        "runs": 51,
+        "p50_ms": 37.75871099787764,
+        "p95_ms": 40.691780000997824,
+        "mean_ms": 38.37905492165352,
+        "critical_path_ms": 37.332512001739815,
+        "critical_path": [
+          "classify_complaint",
+          "draft_reply",
+          "log_ticket"
+        ],
+        "mean_cost": 14.37764705882353,
+        "mean_llm_calls": 2,
+        "mean_tool_calls": 3,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1234.1176470588234,
+        "mean_tokens_out": 203.64705882352942,
+        "mean_cache_hits": 0,
+        "correct": 51,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "routing",
+        "label": "+ routing",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing"
+        ],
+        "cache": "cold",
+        "runs": 51,
+        "p50_ms": 38.00729900103761,
+        "p95_ms": 40.021878501647734,
+        "mean_ms": 38.27589160808951,
+        "critical_path_ms": 37.41267199802678,
+        "critical_path": [
+          "classify_complaint",
+          "draft_reply",
+          "log_ticket"
+        ],
+        "mean_cost": 14.37764705882353,
+        "mean_llm_calls": 2,
+        "mean_tool_calls": 3,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1234.1176470588234,
+        "mean_tokens_out": 203.64705882352942,
+        "mean_cache_hits": 0,
+        "correct": 51,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "memoise",
+        "label": "+ caching",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing",
+          "memoise"
+        ],
+        "cache": "cold",
+        "runs": 51,
+        "p50_ms": 38.9700140003697,
+        "p95_ms": 42.325008998886915,
+        "mean_ms": 41.57311919626926,
+        "critical_path_ms": 38.24994300157414,
+        "critical_path": [
+          "classify_complaint",
+          "draft_reply",
+          "log_ticket"
+        ],
+        "mean_cost": 14.37764705882353,
+        "mean_llm_calls": 2,
+        "mean_tool_calls": 3,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 1234.1176470588234,
+        "mean_tokens_out": 203.64705882352942,
+        "mean_cache_hits": 0,
+        "correct": 51,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "memoise",
+        "label": "+ caching",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing",
+          "memoise"
+        ],
+        "cache": "warm",
+        "runs": 51,
+        "p50_ms": 15.277239002898568,
+        "p95_ms": 15.791192501637852,
+        "mean_ms": 15.310793960987425,
+        "critical_path_ms": 14.628851004090393,
+        "critical_path": [
+          "fetch_transactions",
+          "draft_reply",
+          "log_ticket"
+        ],
+        "mean_cost": 0.0,
+        "mean_llm_calls": 0,
+        "mean_tool_calls": 2,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 0,
+        "mean_tokens_out": 0,
+        "mean_cache_hits": 3,
+        "correct": 51,
+        "correct_rate": 1.0,
+        "errors": 0
+      }
+    ],
+    "summary": {
+      "from": "baseline",
+      "to": "memoise",
+      "cold_p50_ms": [
+        56.32576599964523,
+        38.9700140003697
+      ],
+      "cold_speedup": 1.445361708084346,
+      "mean_cost": [
+        14.792352941176471,
+        14.37764705882353
+      ],
+      "mean_llm_calls": [
+        2,
+        2
+      ],
+      "correct_rate": [
+        1.0,
+        1.0
+      ],
+      "warm_p50_ms": [
+        56.34174899751088,
+        15.277239002898568
+      ],
+      "warm_speedup": 3.6879536274074844
+    },
+    "sample": true
+  },
+  {
+    "workflow": "research_agent",
+    "source": "workflows/research_agent_langgraph.py",
+    "mode": "mock",
+    "provider": "mock",
+    "cost_unit": "mock units",
+    "created_at": "2026-10-31T16:32:38.103365+00:00",
+    "duration_s": 5.2,
+    "repeats": 3,
+    "cases": 20,
+    "case_ids": [
+      "5a8b57f25542995d1e6f1371",
+      "5a8c7595554299585d9e36b6",
+      "5a85ea095542994775f606a8",
+      "5adbf0a255429947ff17385a",
+      "5a8e3ea95542995a26add48d",
+      "5abd94525542992ac4f382d2",
+      "5a85b2d95542997b5ce40028",
+      "5a87ab905542996e4f3088c1",
+      "5a7bbb64554299042af8f7cc",
+      "5a8db19d5542994ba4e3dd00",
+      "5a7166395542994082a3e814",
+      "5a877e5d5542993e715abf7d",
+      "5ab3b0bf5542992ade7c6e39",
+      "5ab56e32554299637185c594",
+      "5ab6d09255429954757d337d",
+      "5a75e05c55429976ec32bc5f",
+      "5ab3e45655429976abd1bcd4",
+      "5ab29c24554299449642c932",
+      "5ae0d4c9554299603e418468",
+      "5a8133725542995ce29dcbdb"
+    ],
+    "latency_scale": 0.01,
+    "concurrency_cap": 8,
+    "correctness": "outputs match the original workflow",
+    "method": "median and p95 wall time over repeats x cases; cold runs start with an empty cache, warm runs reuse a cache filled by one unmeasured pass",
+    "steps": [
+      {
+        "name": "baseline",
+        "label": "baseline",
+        "passes": []
+      },
+      {
+        "name": "dead_nodes",
+        "label": "+ dead nodes",
+        "passes": [
+          "dead_nodes"
+        ]
+      },
+      {
+        "name": "cse",
+        "label": "+ duplicates (CSE)",
+        "passes": [
+          "dead_nodes",
+          "cse"
+        ]
+      },
+      {
+        "name": "compact_inputs",
+        "label": "+ compact inputs",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs"
+        ]
+      },
+      {
+        "name": "parallelise",
+        "label": "+ parallelisation",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise"
+        ]
+      },
+      {
+        "name": "routing",
+        "label": "+ routing",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing"
+        ]
+      },
+      {
+        "name": "memoise",
+        "label": "+ caching",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing",
+          "memoise"
+        ]
+      }
+    ],
+    "configurations": [
+      {
+        "name": "baseline",
+        "label": "baseline",
+        "passes": [],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 10.977921498124488,
+        "p95_ms": 13.89232395140425,
+        "mean_ms": 11.471438399712497,
+        "critical_path_ms": 10.583143495750846,
+        "critical_path": [
+          "split_question",
+          "retrieve_one",
+          "retrieve_two",
+          "summarise_one",
+          "summarise_two",
+          "answer"
+        ],
+        "mean_cost": 0.0,
+        "mean_llm_calls": 0,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 0,
+        "mean_tokens_out": 0,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "baseline",
+        "label": "baseline",
+        "passes": [],
+        "cache": "warm",
+        "runs": 60,
+        "p50_ms": 11.12113099952694,
+        "p95_ms": 12.112993099981395,
+        "mean_ms": 11.152113733684624,
+        "critical_path_ms": 10.448087499753456,
+        "critical_path": [
+          "split_question",
+          "retrieve_one",
+          "retrieve_two",
+          "summarise_one",
+          "summarise_two",
+          "answer"
+        ],
+        "mean_cost": 0.0,
+        "mean_llm_calls": 0,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 0,
+        "mean_tokens_out": 0,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "dead_nodes",
+        "label": "+ dead nodes",
+        "passes": [
+          "dead_nodes"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 11.115039998912835,
+        "p95_ms": 12.039949800237082,
+        "mean_ms": 11.122233133452633,
+        "critical_path_ms": 10.52039349815459,
+        "critical_path": [
+          "split_question",
+          "retrieve_one",
+          "retrieve_two",
+          "summarise_one",
+          "summarise_two",
+          "answer"
+        ],
+        "mean_cost": 0.0,
+        "mean_llm_calls": 0,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 0,
+        "mean_tokens_out": 0,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "cse",
+        "label": "+ duplicates (CSE)",
+        "passes": [
+          "dead_nodes",
+          "cse"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 10.865370499232085,
+        "p95_ms": 11.86502595046477,
+        "mean_ms": 10.889998783022747,
+        "critical_path_ms": 10.294850999343907,
+        "critical_path": [
+          "split_question",
+          "retrieve_one",
+          "retrieve_two",
+          "summarise_one",
+          "summarise_two",
+          "answer"
+        ],
+        "mean_cost": 0.0,
+        "mean_llm_calls": 0,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 0,
+        "mean_tokens_out": 0,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "compact_inputs",
+        "label": "+ compact inputs",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 10.82259999930102,
+        "p95_ms": 11.687993351006298,
+        "mean_ms": 10.765642249801507,
+        "critical_path_ms": 10.208137999143219,
+        "critical_path": [
+          "split_question",
+          "retrieve_one",
+          "retrieve_two",
+          "summarise_one",
+          "summarise_two",
+          "answer"
+        ],
+        "mean_cost": 0.0,
+        "mean_llm_calls": 0,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 0,
+        "mean_tokens_out": 0,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "parallelise",
+        "label": "+ parallelisation",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 6.402752500434872,
+        "p95_ms": 7.086590797734971,
+        "mean_ms": 6.290229866256898,
+        "critical_path_ms": 5.6044989978545345,
+        "critical_path": [
+          "split_question",
+          "retrieve_two",
+          "summarise_two",
+          "answer"
+        ],
+        "mean_cost": 0.0,
+        "mean_llm_calls": 0,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 0,
+        "mean_tokens_out": 0,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "routing",
+        "label": "+ routing",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 6.354018500132952,
+        "p95_ms": 7.464983797399327,
+        "mean_ms": 6.382956866764289,
+        "critical_path_ms": 5.608767502053524,
+        "critical_path": [
+          "split_question",
+          "retrieve_two",
+          "summarise_two",
+          "answer"
+        ],
+        "mean_cost": 0.0,
+        "mean_llm_calls": 0,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 0,
+        "mean_tokens_out": 0,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "memoise",
+        "label": "+ caching",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing",
+          "memoise"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 6.789267499698326,
+        "p95_ms": 7.639875102177029,
+        "mean_ms": 6.572123333171476,
+        "critical_path_ms": 5.811708500914392,
+        "critical_path": [
+          "split_question",
+          "retrieve_two",
+          "summarise_two",
+          "answer"
+        ],
+        "mean_cost": 0.0,
+        "mean_llm_calls": 0,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 0,
+        "mean_tokens_out": 0,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "memoise",
+        "label": "+ caching",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing",
+          "memoise"
+        ],
+        "cache": "warm",
+        "runs": 60,
+        "p50_ms": 0.6774119992769556,
+        "p95_ms": 1.2453085977540468,
+        "mean_ms": 0.8117959998344304,
+        "critical_path_ms": 0.23598400002811104,
+        "critical_path": [
+          "split_question",
+          "retrieve_one",
+          "summarise_one",
+          "answer"
+        ],
+        "mean_cost": 0.0,
+        "mean_llm_calls": 0,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 0,
+        "mean_tokens_out": 0,
+        "mean_cache_hits": 6,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      }
+    ],
+    "summary": {
+      "from": "baseline",
+      "to": "memoise",
+      "cold_p50_ms": [
+        10.977921498124488,
+        6.789267499698326
+      ],
+      "cold_speedup": 1.6169522704197883,
+      "mean_cost": [
+        0.0,
+        0.0
+      ],
+      "mean_llm_calls": [
+        0,
+        0
+      ],
+      "correct_rate": [
+        1.0,
+        1.0
+      ],
+      "warm_p50_ms": [
+        11.12113099952694,
+        0.6774119992769556
+      ],
+      "warm_speedup": 16.417085926138334
+    },
+    "sample": true
+  },
+  {
+    "workflow": "research_llm",
+    "source": "workflows/research_llm_langgraph.py",
+    "mode": "mock",
+    "provider": "mock",
+    "cost_unit": "mock units",
+    "created_at": "2026-10-31T16:32:47.608016+00:00",
+    "duration_s": 9.5,
+    "repeats": 3,
+    "cases": 20,
+    "case_ids": [
+      "5a8b57f25542995d1e6f1371",
+      "5a8c7595554299585d9e36b6",
+      "5a85ea095542994775f606a8",
+      "5adbf0a255429947ff17385a",
+      "5a8e3ea95542995a26add48d",
+      "5abd94525542992ac4f382d2",
+      "5a85b2d95542997b5ce40028",
+      "5a87ab905542996e4f3088c1",
+      "5a7bbb64554299042af8f7cc",
+      "5a8db19d5542994ba4e3dd00",
+      "5a7166395542994082a3e814",
+      "5a877e5d5542993e715abf7d",
+      "5ab3b0bf5542992ade7c6e39",
+      "5ab56e32554299637185c594",
+      "5ab6d09255429954757d337d",
+      "5a75e05c55429976ec32bc5f",
+      "5ab3e45655429976abd1bcd4",
+      "5ab29c24554299449642c932",
+      "5ae0d4c9554299603e418468",
+      "5a8133725542995ce29dcbdb"
+    ],
+    "latency_scale": 0.01,
+    "concurrency_cap": 8,
+    "correctness": "outputs match the original workflow",
+    "method": "median and p95 wall time over repeats x cases; cold runs start with an empty cache, warm runs reuse a cache filled by one unmeasured pass",
+    "steps": [
+      {
+        "name": "baseline",
+        "label": "baseline",
+        "passes": []
+      },
+      {
+        "name": "dead_nodes",
+        "label": "+ dead nodes",
+        "passes": [
+          "dead_nodes"
+        ]
+      },
+      {
+        "name": "cse",
+        "label": "+ duplicates (CSE)",
+        "passes": [
+          "dead_nodes",
+          "cse"
+        ]
+      },
+      {
+        "name": "compact_inputs",
+        "label": "+ compact inputs",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs"
+        ]
+      },
+      {
+        "name": "parallelise",
+        "label": "+ parallelisation",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise"
+        ]
+      },
+      {
+        "name": "routing",
+        "label": "+ routing",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing"
+        ]
+      },
+      {
+        "name": "memoise",
+        "label": "+ caching",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing",
+          "memoise"
+        ]
+      }
+    ],
+    "configurations": [
+      {
+        "name": "baseline",
+        "label": "baseline",
+        "passes": [],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 17.89170400115836,
+        "p95_ms": 18.358163848461118,
+        "mean_ms": 17.794196199974976,
+        "critical_path_ms": 17.448833998059854,
+        "critical_path": [
+          "search_one",
+          "search_two",
+          "synthesise"
+        ],
+        "mean_cost": 7.6855,
+        "mean_llm_calls": 1,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 645.1,
+        "mean_tokens_out": 123.45,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "baseline",
+        "label": "baseline",
+        "passes": [],
+        "cache": "warm",
+        "runs": 60,
+        "p50_ms": 17.83496549796837,
+        "p95_ms": 18.574284301394073,
+        "mean_ms": 17.818693249986,
+        "critical_path_ms": 17.468811001890572,
+        "critical_path": [
+          "search_one",
+          "search_two",
+          "synthesise"
+        ],
+        "mean_cost": 7.6855,
+        "mean_llm_calls": 1,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 645.1,
+        "mean_tokens_out": 123.45,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "dead_nodes",
+        "label": "+ dead nodes",
+        "passes": [
+          "dead_nodes"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 17.764964999514632,
+        "p95_ms": 18.45492445045238,
+        "mean_ms": 17.772487766342238,
+        "critical_path_ms": 17.29225300186954,
+        "critical_path": [
+          "search_one",
+          "search_two",
+          "synthesise"
+        ],
+        "mean_cost": 7.6855,
+        "mean_llm_calls": 1,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 645.1,
+        "mean_tokens_out": 123.45,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "cse",
+        "label": "+ duplicates (CSE)",
+        "passes": [
+          "dead_nodes",
+          "cse"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 17.796544500015443,
+        "p95_ms": 18.35376045164594,
+        "mean_ms": 17.77683383358332,
+        "critical_path_ms": 17.318481499387417,
+        "critical_path": [
+          "search_one",
+          "search_two",
+          "synthesise"
+        ],
+        "mean_cost": 7.6855,
+        "mean_llm_calls": 1,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 645.1,
+        "mean_tokens_out": 123.45,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "compact_inputs",
+        "label": "+ compact inputs",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 17.963684500500676,
+        "p95_ms": 19.00067384813155,
+        "mean_ms": 17.962496233303682,
+        "critical_path_ms": 17.642432501816074,
+        "critical_path": [
+          "search_one",
+          "search_two",
+          "synthesise"
+        ],
+        "mean_cost": 7.66,
+        "mean_llm_calls": 1,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 642.55,
+        "mean_tokens_out": 123.45,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "parallelise",
+        "label": "+ parallelisation",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 17.818174997955794,
+        "p95_ms": 18.641854949055414,
+        "mean_ms": 17.74357968321662,
+        "critical_path_ms": 17.03578599881439,
+        "critical_path": [
+          "search_two",
+          "synthesise"
+        ],
+        "mean_cost": 7.66,
+        "mean_llm_calls": 1,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 642.55,
+        "mean_tokens_out": 123.45,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "routing",
+        "label": "+ routing",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 17.594261498743435,
+        "p95_ms": 18.39510130103008,
+        "mean_ms": 17.679812349827746,
+        "critical_path_ms": 17.080721499951323,
+        "critical_path": [
+          "search_two",
+          "synthesise"
+        ],
+        "mean_cost": 7.66,
+        "mean_llm_calls": 1,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 642.55,
+        "mean_tokens_out": 123.45,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "memoise",
+        "label": "+ caching",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing",
+          "memoise"
+        ],
+        "cache": "cold",
+        "runs": 60,
+        "p50_ms": 18.26702900143573,
+        "p95_ms": 19.011135650180222,
+        "mean_ms": 18.15890953318255,
+        "critical_path_ms": 17.639068501011934,
+        "critical_path": [
+          "search_two",
+          "synthesise"
+        ],
+        "mean_cost": 7.66,
+        "mean_llm_calls": 1,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 642.55,
+        "mean_tokens_out": 123.45,
+        "mean_cache_hits": 0,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      },
+      {
+        "name": "memoise",
+        "label": "+ caching",
+        "passes": [
+          "dead_nodes",
+          "cse",
+          "compact_inputs",
+          "parallelise",
+          "routing",
+          "memoise"
+        ],
+        "cache": "warm",
+        "runs": 60,
+        "p50_ms": 0.44102749779995065,
+        "p95_ms": 0.5364438973629148,
+        "mean_ms": 0.4580852497989933,
+        "critical_path_ms": 0.18139150415663607,
+        "critical_path": [
+          "search_one",
+          "synthesise"
+        ],
+        "mean_cost": 0.0,
+        "mean_llm_calls": 0,
+        "mean_tool_calls": 0,
+        "mean_rate_limit_retries": 0,
+        "mean_tokens_in": 0,
+        "mean_tokens_out": 0,
+        "mean_cache_hits": 3,
+        "correct": 60,
+        "correct_rate": 1.0,
+        "errors": 0
+      }
+    ],
+    "summary": {
+      "from": "baseline",
+      "to": "memoise",
+      "cold_p50_ms": [
+        17.89170400115836,
+        18.26702900143573
+      ],
+      "cold_speedup": 0.9794534184925271,
+      "mean_cost": [
+        7.6855,
+        7.66
+      ],
+      "mean_llm_calls": [
+        1,
+        1
+      ],
+      "correct_rate": [
+        1.0,
+        1.0
+      ],
+      "warm_p50_ms": [
+        17.83496549796837,
+        0.44102749779995065
+      ],
+      "warm_speedup": 40.43957709425701
+    },
+    "sample": true
+  }
+]

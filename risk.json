@@ -1,0 +1,14 @@
+{
+  "title": "RiskAssessment",
+  "type": "object",
+  "properties": {
+    "decision": {"type": "string", "enum": ["approve", "refer", "decline"]},
+    "kyc_verified": {"type": "boolean"},
+    "bureau_score": {"type": "integer"},
+    "foir": {"type": "number", "description": "Existing EMIs divided by monthly income"},
+    "reasons": {"type": "array", "items": {"type": "string"}},
+    "summary": {"type": "string"}
+  },
+  "required": ["decision", "kyc_verified", "bureau_score", "foir", "reasons", "summary"],
+  "additionalProperties": false
+}

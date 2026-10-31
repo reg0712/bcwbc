@@ -1,0 +1,52 @@
+# Complaint triage agent, the second banking workflow: classify the complaint, fetch the
+# customer's recent transactions, look up the complaint-handling policy, draft a reply for an
+# agent to review, and log the ticket. Written plainly top to bottom, the way an agent is first
+# written; nothing is seeded for SYNAPSE to find, so the demo compiles it without hand-tuning.
+workflow: complaint_triage
+input: [complaint, customer_id]
+output: [triage, reply, ticket]
+nodes:
+  - id: classify_complaint
+    kind: llm
+    model: large
+    max_output_tokens: 256
+    prompt: prompts/classify_complaint.txt
+    inputs: [complaint]
+    outputs: [triage]
+    effect: pure
+    tests: [schema: triage.json]
+
+  - id: fetch_transactions
+    kind: tool
+    tool: transactions_api
+    inputs: [customer_id]
+    outputs: [history]
+    effect: read
+    deterministic: true
+    ttl_s: 300                  # new transactions post all day, so only a short expiry
+
+  - id: policy_lookup
+    kind: retrieve
+    index: complaint_policy
+    query: complaint resolution timelines, customer communication and escalation
+    outputs: [policy]
+    effect: pure
+    deterministic: true
+
+  - id: draft_reply
+    kind: llm
+    model: large
+    max_output_tokens: 1024
+    prompt: prompts/draft_reply.txt
+    inputs: [complaint, triage, history, policy]
+    outputs: [reply]
+    effect: pure
+    tests: [schema: reply.json]
+
+  - id: log_ticket              # write: the ticket must be logged exactly once
+    kind: tool
+    tool: ticket_api
+    inputs: [customer_id, triage.category, triage.team, triage.priority,
+             reply.subject, reply.body, reply.resolution_days]
+    outputs: [ticket]
+    effect: write

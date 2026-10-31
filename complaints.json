@@ -1,0 +1,220 @@
+[
+  {
+    "case_id": "C01",
+    "customer_id": "CUST-C01",
+    "account": "TEST-ACC-1001",
+    "name": "Ira Mockwala",
+    "complaint": "My account was debited, but the beneficiary says the payment never arrived. I sent INR 5,000 to my landlord by UPI on 28 October and he still has not received it.",
+    "expected_category": "failed_transfer",
+    "expected_team": "digital_payments",
+    "expected_transactions": ["TEST-TXN-C01-01"],
+    "transactions": [
+      {"txn_id": "TEST-TXN-C01-01", "date": "2026-10-28", "type": "debit", "channel": "UPI", "description": "UPI TRANSFER TO MR TESTOWNER", "amount": 5000, "status": "pending"}
+    ]
+  },
+  {
+    "case_id": "C02",
+    "customer_id": "CUST-C02",
+    "account": "TEST-ACC-1002",
+    "name": "Yash Testhegde",
+    "complaint": "I made an IMPS transfer of INR 18,400 to my supplier on 24 October. The money was taken from my account but the supplier's bank says nothing has come in.",
+    "expected_category": "failed_transfer",
+    "expected_team": "digital_payments",
+    "expected_transactions": ["TEST-TXN-C02-01"],
+    "transactions": [
+      {"txn_id": "TEST-TXN-C02-01", "date": "2026-10-24", "type": "debit", "channel": "IMPS", "description": "IMPS TRANSFER TO DEMO TRADERS", "amount": 18400, "status": "pending"}
+    ]
+  },
+  {
+    "case_id": "C03",
+    "customer_id": "CUST-C03",
+    "account": "TEST-ACC-1003",
+    "name": "Leela Sampledas",
+    "complaint": "On 22 October I sent INR 75,000 by NEFT to my brother's account for his college fees. It left my account the same day, but his bank has still not credited it and the fees are due this week.",
+    "expected_category": "failed_transfer",
+    "expected_team": "digital_payments",
+    "expected_transactions": ["TEST-TXN-C03-01"],
+    "transactions": [
+      {"txn_id": "TEST-TXN-C03-01", "date": "2026-10-22", "type": "debit", "channel": "NEFT", "description": "NEFT TRANSFER TO A SAMPLEDAS", "amount": 75000, "status": "pending"}
+    ]
+  },
+  {
+    "case_id": "C04",
+    "customer_id": "CUST-C04",
+    "account": "TEST-ACC-1004",
+    "name": "Manav Dummyshah",
+    "complaint": "I paid INR 1,250 at a grocery shop by scanning their UPI QR code on 29 October. The shopkeeper's phone showed the payment as failed, but the money was debited from my account.",
+    "expected_category": "failed_transfer",
+    "expected_team": "digital_payments",
+    "expected_transactions": ["TEST-TXN-C04-01"],
+    "transactions": [
+      {"txn_id": "TEST-TXN-C04-01", "date": "2026-10-29", "type": "debit", "channel": "UPI", "description": "UPI PAYMENT TO SAMPLE KIRANA STORE", "amount": 1250, "status": "pending"}
+    ]
+  },
+  {
+    "case_id": "C05",
+    "customer_id": "CUST-C05",
+    "account": "TEST-ACC-1005",
+    "name": "Priya Demokapoor",
+    "complaint": "There is a charge of INR 3,899 on my debit card dated 25 October from a merchant called MOCKSHOP ONLINE that I don't recognise. Please tell me what it is for.",
+    "expected_category": "card_dispute",
+    "expected_team": "card_disputes",
+    "expected_transactions": ["TEST-TXN-C05-01"],
+    "transactions": [
+      {"txn_id": "TEST-TXN-C05-01", "date": "2026-10-25", "type": "debit", "channel": "CARD", "description": "CARD PURCHASE MOCKSHOP ONLINE", "amount": 3899, "status": "completed"}
+    ]
+  },
+  {
+    "case_id": "C06",
+    "customer_id": "CUST-C06",
+    "account": "TEST-ACC-1006",
+    "name": "Rehan Testqureshi",
+    "complaint": "I was charged twice for one order of INR 2,499 on my debit card at an electronics website on 27 October. I only placed one order, so please refund the second charge.",
+    "expected_category": "card_dispute",
+    "expected_team": "card_disputes",
+    "expected_transactions": ["TEST-TXN-C06-01", "TEST-TXN-C06-02"],
+    "transactions": [
+      {"txn_id": "TEST-TXN-C06-01", "date": "2026-10-27", "type": "debit", "channel": "CARD", "description": "CARD PURCHASE TESTTRONICS ONLINE", "amount": 2499, "status": "completed"},
+      {"txn_id": "TEST-TXN-C06-02", "date": "2026-10-27", "type": "debit", "channel": "CARD", "description": "CARD PURCHASE TESTTRONICS ONLINE", "amount": 2499, "status": "completed"}
+    ]
+  },
+  {
+    "case_id": "C07",
+    "customer_id": "CUST-C07",
+    "account": "TEST-ACC-1007",
+    "name": "Anika Mockbanerjee",
+    "complaint": "My debit card was stolen on 26 October. I reported it the same evening, but two purchases of INR 8,750 and INR 12,300 that I did not make had already gone through.",
+    "expected_category": "card_dispute",
+    "expected_team": "fraud_response",
+    "expected_transactions": ["TEST-TXN-C07-01", "TEST-TXN-C07-02"],
+    "transactions": [
+      {"txn_id": "TEST-TXN-C07-01", "date": "2026-10-26", "type": "debit", "channel": "CARD", "description": "CARD PURCHASE DEMO JEWELLERS", "amount": 8750, "status": "completed"},
+      {"txn_id": "TEST-TXN-C07-02", "date": "2026-10-26", "type": "debit", "channel": "CARD", "description": "CARD PURCHASE SAMPLE GADGETS", "amount": 12300, "status": "completed"}
+    ]
+  },
+  {
+    "case_id": "C08",
+    "customer_id": "CUST-C08",
+    "account": "TEST-ACC-1008",
+    "name": "Siddharth Samplerao",
+    "complaint": "I tried to withdraw INR 10,000 from your ATM at the station road branch on 27 October. No cash came out, but my account was debited.",
+    "expected_category": "atm_cash",
+    "expected_team": "atm_operations",
+    "expected_transactions": ["TEST-TXN-C08-01"],
+    "transactions": [
+      {"txn_id": "TEST-TXN-C08-01", "date": "2026-10-27", "type": "debit", "channel": "ATM", "description": "ATM WITHDRAWAL STATION ROAD BRANCH", "amount": 10000, "status": "completed"}
+    ]
+  },
+  {
+    "case_id": "C09",
+    "customer_id": "CUST-C09",
+    "account": "TEST-ACC-1009",
+    "name": "Naina Demochawla",
+    "complaint": "I withdrew INR 6,000 from another bank's ATM on 23 October but the machine gave me only INR 2,000. The full INR 6,000 was debited from my account.",
+    "expected_category": "atm_cash",
+    "expected_team": "atm_operations",
+    "expected_transactions": ["TEST-TXN-C09-01"],
+    "transactions": [
+      {"txn_id": "TEST-TXN-C09-01", "date": "2026-10-23", "type": "debit", "channel": "ATM", "description": "ATM WITHDRAWAL OTHER BANK ATM", "amount": 6000, "status": "completed"}
+    ]
+  },
+  {
+    "case_id": "C10",
+    "customer_id": "CUST-C10",
+    "account": "TEST-ACC-1010",
+    "name": "Kunal Dummysethi",
+    "complaint": "The ATM screen said it was unable to dispense cash when I tried to take out INR 3,500 on 21 October, yet the amount left my account and it has not come back.",
+    "expected_category": "atm_cash",
+    "expected_team": "atm_operations",
+    "expected_transactions": ["TEST-TXN-C10-01"],
+    "transactions": [
+      {"txn_id": "TEST-TXN-C10-01", "date": "2026-10-21", "type": "debit", "channel": "ATM", "description": "ATM WITHDRAWAL MARKET ROAD", "amount": 3500, "status": "completed"}
+    ]
+  },
+  {
+    "case_id": "C11",
+    "customer_id": "CUST-C11",
+    "account": "TEST-ACC-1011",
+    "name": "Ritu Testagarwal",
+    "complaint": "My home loan EMI of INR 21,600 was debited twice on 5 October. Please refund the extra EMI.",
+    "expected_category": "loan_charges",
+    "expected_team": "loan_servicing",
+    "expected_transactions": ["TEST-TXN-C11-01", "TEST-TXN-C11-02"],
+    "transactions": [
+      {"txn_id": "TEST-TXN-C11-01", "date": "2026-10-05", "type": "debit", "channel": "LOAN", "description": "EMI HOME LOAN TEST-LN-1011", "amount": 21600, "status": "completed"},
+      {"txn_id": "TEST-TXN-C11-02", "date": "2026-10-05", "type": "debit", "channel": "LOAN", "description": "EMI HOME LOAN TEST-LN-1011", "amount": 21600, "status": "completed"}
+    ]
+  },
+  {
+    "case_id": "C12",
+    "customer_id": "CUST-C12",
+    "account": "TEST-ACC-1012",
+    "name": "Varun Mockmalhotra",
+    "complaint": "A bounce charge of INR 590 was taken from my account on 10 October for my personal loan EMI, even though my balance was enough to pay it.",
+    "expected_category": "loan_charges",
+    "expected_team": "loan_servicing",
+    "expected_transactions": ["TEST-TXN-C12-01"],
+    "transactions": [
+      {"txn_id": "TEST-TXN-C12-01", "date": "2026-10-10", "type": "debit", "channel": "CHARGE", "description": "EMI BOUNCE CHARGE TEST-LN-1012", "amount": 590, "status": "completed"},
+      {"txn_id": "TEST-TXN-C12-02", "date": "2026-10-12", "type": "debit", "channel": "LOAN", "description": "EMI PERSONAL LOAN TEST-LN-1012", "amount": 9450, "status": "completed"}
+    ]
+  },
+  {
+    "case_id": "C13",
+    "customer_id": "CUST-C13",
+    "account": "TEST-ACC-1013",
+    "name": "Fatima Sampleshaikh",
+    "complaint": "I closed my car loan early on 15 October and was charged a foreclosure fee of INR 4,200. My loan agreement says there is no foreclosure charge after two years.",
+    "expected_category": "loan_charges",
+    "expected_team": "loan_servicing",
+    "expected_transactions": ["TEST-TXN-C13-02"],
+    "transactions": [
+      {"txn_id": "TEST-TXN-C13-01", "date": "2026-10-15", "type": "debit", "channel": "LOAN", "description": "LOAN FORECLOSURE TEST-LN-1013", "amount": 285000, "status": "completed"},
+      {"txn_id": "TEST-TXN-C13-02", "date": "2026-10-15", "type": "debit", "channel": "CHARGE", "description": "FORECLOSURE CHARGE TEST-LN-1013", "amount": 4200, "status": "completed"}
+    ]
+  },
+  {
+    "case_id": "C14",
+    "customer_id": "CUST-C14",
+    "account": "TEST-ACC-1014",
+    "name": "Gaurav Demobhatia",
+    "complaint": "I cannot log in to net banking since 27 October. It says my user ID is locked after wrong password attempts, and the reset link does not work.",
+    "expected_category": "account_access",
+    "expected_team": "account_services",
+    "expected_transactions": [],
+    "transactions": []
+  },
+  {
+    "case_id": "C15",
+    "customer_id": "CUST-C15",
+    "account": "TEST-ACC-1015",
+    "name": "Lakshmi Dummynair",
+    "complaint": "My account has been frozen for KYC even though I submitted my KYC documents at the branch on 12 October. I cannot withdraw my own money.",
+    "expected_category": "account_access",
+    "expected_team": "account_services",
+    "expected_transactions": [],
+    "transactions": []
+  },
+  {
+    "case_id": "C16",
+    "customer_id": "CUST-C16",
+    "account": "TEST-ACC-1016",
+    "name": "Om Testkulkarni",
+    "complaint": "I changed my phone and now the mobile banking app will not let me sign in, because the OTP never arrives on my registered number.",
+    "expected_category": "account_access",
+    "expected_team": "account_services",
+    "expected_transactions": [],
+    "transactions": []
+  },
+  {
+    "case_id": "C17",
+    "customer_id": "CUST-C17",
+    "account": "TEST-ACC-1017",
+    "name": "Tanvi Mocksaxena",
+    "complaint": "I visited the branch twice this week to update my passbook and both times was told to come back another day. Nobody could tell me why.",
+    "expected_category": "other",
+    "expected_team": "customer_care",
+    "expected_transactions": [],
+    "transactions": []
+  }
+]
